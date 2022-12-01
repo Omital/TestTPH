@@ -42,9 +42,9 @@ namespace TestTPH.Users
 
         public void TestLoadPerson()
         {
-            var v = (from p in _personRepo.GetAll().OfType<RealPerson>()
-                     where p.ExtraDetail.Code == "100"
-                     select p).FirstOrDefault();
+            var data = (from p in _personRepo.GetAll().OfType<RealPerson>()
+                        where p.ExtraDetail.Code == "100"
+                        select p).FirstOrDefault();
         }
 
         public override async Task<UserDto> GetAsync(EntityDto<long> input)
