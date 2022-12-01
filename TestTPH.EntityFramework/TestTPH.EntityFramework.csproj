@@ -259,6 +259,10 @@
   <ItemGroup>
     <Compile Include="EntityFramework\TestTPHDbContext.cs" />
     <Compile Include="EntityFramework\Repositories\TestTPHRepositoryBase.cs" />
+    <Compile Include="Migrations\202212011821051_addPersonEntities.cs" />
+    <Compile Include="Migrations\202212011821051_addPersonEntities.designer.cs">
+      <DependentUpon>202212011821051_addPersonEntities.cs</DependentUpon>
+    </Compile>
     <Compile Include="TestTPHDataModule.cs" />
     <Compile Include="Migrations\201809270654064_InitialMigrations.cs" />
     <Compile Include="Migrations\201809270654064_InitialMigrations.Designer.cs">
@@ -400,6 +404,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202206221055273_Upgrade_To_ABP_7.3.resx">
       <DependentUpon>202206221055273_Upgrade_To_ABP_7.3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212011821051_addPersonEntities.resx">
+      <DependentUpon>202212011821051_addPersonEntities.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

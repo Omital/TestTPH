@@ -1,10 +1,11 @@
-﻿using System.Data.Common;
-using System.Data.Entity;
-using Abp.DynamicEntityProperties;
+﻿using Abp.DynamicEntityProperties;
 using Abp.Zero.EntityFramework;
+using System.Data.Common;
+using System.Data.Entity;
 using TestTPH.Authorization.Roles;
 using TestTPH.Authorization.Users;
 using TestTPH.MultiTenancy;
+using TestTPH.Peopels;
 
 namespace TestTPH.EntityFramework
 {
@@ -17,6 +18,10 @@ namespace TestTPH.EntityFramework
          *   But it may cause problems when working Migrate.exe of EF. If you will apply migrations on command line, do not
          *   pass connection string name to base classes. ABP works either way.
          */
+        public IDbSet<Person> Peopels { get; set; }
+
+        public IDbSet<PersonExtraDetail> PersonExtraDetails { get; set; }
+
         public TestTPHDbContext()
             : base("Default")
         {
@@ -49,6 +54,14 @@ namespace TestTPH.EntityFramework
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            //modelBuilder.Entity<Person>().HasOptional(j => j.ExtraDetail).WithRequired(j => j.Person);
+
+            modelBuilder.Entity<Person>()
+               .HasOptional(p => p.ExtraDetail)
+               .WithRequired(p => p.Person)
+               .WillCascadeOnDelete(true);
+
 
             modelBuilder.Entity<DynamicProperty>().Property(p => p.PropertyName).HasMaxLength(250);
             modelBuilder.Entity<DynamicEntityProperty>().Property(p => p.EntityFullName).HasMaxLength(250);

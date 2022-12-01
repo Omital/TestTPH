@@ -1,19 +1,20 @@
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using Abp.Authorization;
 using Abp.Authorization.Users;
 using Abp.Domain.Repositories;
 using Abp.IdentityFramework;
+using Microsoft.AspNet.Identity;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
 using TestTPH.Authorization;
 using TestTPH.Authorization.Roles;
 using TestTPH.Authorization.Users;
+using TestTPH.Peopels;
 using TestTPH.Roles.Dto;
 using TestTPH.Users.Dto;
-using Microsoft.AspNet.Identity;
 
 namespace TestTPH.Users
 {
@@ -21,23 +22,35 @@ namespace TestTPH.Users
     public class UserAppService : AsyncCrudAppService<User, UserDto, long, PagedResultRequestDto, CreateUserDto, UpdateUserDto>, IUserAppService
     {
         private readonly UserManager _userManager;
+        private readonly IRepository<Person> _personRepo;
         private readonly RoleManager _roleManager;
         private readonly IRepository<Role> _roleRepository;
 
         public UserAppService(
             IRepository<User, long> repository,
             UserManager userManager,
+            IRepository<Person> personRepo,
             IRepository<Role> roleRepository,
             RoleManager roleManager)
             : base(repository)
         {
+            _personRepo = personRepo;
             _userManager = userManager;
             _roleRepository = roleRepository;
             _roleManager = roleManager;
         }
 
+        public void TestLoadPerson()
+        {
+            var v = (from p in _personRepo.GetAll().OfType<RealPerson>()
+                     where p.ExtraDetail.Code == "100"
+                     select p).FirstOrDefault();
+        }
+
         public override async Task<UserDto> GetAsync(EntityDto<long> input)
         {
+            TestLoadPerson();
+
             var user = await base.GetAsync(input);
             var userRoles = await _userManager.GetRolesAsync(user.Id);
             user.Roles = userRoles.Select(ur => ur).ToArray();

@@ -238,6 +238,10 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Peopels\LegalPerson.cs" />
+    <Compile Include="Peopels\Person.cs" />
+    <Compile Include="Peopels\PersonExtraDetail.cs" />
+    <Compile Include="Peopels\RealPerson.cs" />
     <Compile Include="TestTPHConsts.cs" />
     <Compile Include="TestTPHCoreModule.cs" />
     <Compile Include="AppVersionHelper.cs" />
